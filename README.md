@@ -20,3 +20,4 @@ Important git commands
 
 - ssh-keygen -t rsa -C "[Email@address.here]"
 - ssh -T git@github.com
+- git merge ["branch name you want to merge"]
