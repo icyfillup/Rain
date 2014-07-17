@@ -1,7 +1,6 @@
 package com.icyfillup.rain;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -10,8 +9,11 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.input.Keyboard;
+import com.icyfillup.rain.level.Level;
+import com.icyfillup.rain.level.RandomLevel;
 
 public class Game extends Canvas implements Runnable
 {
@@ -26,6 +28,8 @@ public class Game extends Canvas implements Runnable
 	private Thread thread;
 	private JFrame frame;
 	private Keyboard key;
+	private Level level;
+	private Player player;
 	private boolean running = false;
 	
 	private Screen screen;
@@ -41,6 +45,8 @@ public class Game extends Canvas implements Runnable
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
+		level = new RandomLevel(64, 64);
+		player = new Player(key);
 		
 		addKeyListener(key);
 	}
@@ -99,15 +105,10 @@ public class Game extends Canvas implements Runnable
 		}
 	}
 	
-	int x = 0, y = 0;
-	
 	public void update() 
 	{
 		key.update();
-		if(key.up) { y--; }
-		if(key.down) { y++; }
-		if(key.left) { x--; }
-		if(key.right) { x++; }
+		player.update();
 	}
 	
 	public void render() 
@@ -120,7 +121,10 @@ public class Game extends Canvas implements Runnable
 		}
 		
 		screen.clear();
-		screen.render(x, y);
+		int xScroll = player.x - screen.width / 2;
+		int yScroll = player.y - screen.height / 2;
+		level.render(xScroll, yScroll, screen);
+		player.render(screen);
 		
 		for(int i = 0; i < pixels.length; i++)
 		{

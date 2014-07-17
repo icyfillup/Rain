@@ -8,6 +8,12 @@ public class Sprite
 	private SpriteSheet sheet;
 	
 	public static Sprite grass = new Sprite(16, 0, 0, SpriteSheet.tiles);
+	public static Sprite voidSprite = new Sprite(16, 0xFF00FF);
+	
+	public static Sprite player0 = new Sprite(16, 0, 10, SpriteSheet.tiles);
+	public static Sprite player1 = new Sprite(16, 1, 10, SpriteSheet.tiles);
+	public static Sprite player2 = new Sprite(16, 0, 11, SpriteSheet.tiles);
+	public static Sprite player3 = new Sprite(16, 1, 11, SpriteSheet.tiles);
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet)
 	{
@@ -17,6 +23,21 @@ public class Sprite
 		this.y = y * size;
 		this.sheet = sheet;
 		load();
+	}
+	
+	public Sprite(int size, int colour)
+	{
+		this.SIZE = size;
+		pixels = new int[SIZE * SIZE];
+		setColour(colour);
+	}
+	
+	private void setColour(int colour)
+	{
+		for(int i = 0; i < SIZE * SIZE; i++)
+		{
+			pixels[i] = colour;
+		}
 	}
 	
 	private void load()
