@@ -52,19 +52,27 @@ public class Screen
 		}
 	}
 	
-	public void renderPlayer(int xp, int yp, Sprite sprite)
+	public void renderPlayer(int xp, int yp, Sprite sprite, int flip)
 	{
+//		System.out.println("xOffset: " + xOffset + " yOffset: " + yOffset);
 		xp -= xOffset;
 		yp -= yOffset;
 		for(int y = 0; y < sprite.SIZE; y++)
-		{
-			int ya = y + yp; 
+		{	
+			int ys = y;
+			if(flip == 2 || flip == 3) { ys = 31 - y; }
+			
+			int ya = y + yp;
 			for(int x = 0; x < sprite.SIZE; x++)
 			{
+				int xs = x;
+				if(flip == 1 || flip == 3) { xs = 31 - x; }
+				
 				int xa = x + xp;
 				if(xa < -sprite.SIZE || xa >= width || ya < 0 || ya >= height) { break; }
 				if(xa < 0) { xa = 0; }
-				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.SIZE];
+				int col = sprite.pixels[xs + ys * sprite.SIZE];
+				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
 			}
 		}
 	}
