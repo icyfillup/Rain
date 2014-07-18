@@ -13,7 +13,7 @@ import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.input.Keyboard;
 import com.icyfillup.rain.level.Level;
-import com.icyfillup.rain.level.RandomLevel;
+import com.icyfillup.rain.level.SpawnLevel;
 
 public class Game extends Canvas implements Runnable
 {
@@ -45,8 +45,8 @@ public class Game extends Canvas implements Runnable
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
-		level = new RandomLevel(64, 64);
-		player = new Player(key);
+		level = new SpawnLevel("/levels/level.png");
+		player = new Player(16 * 6, 16 * 5, key);
 		
 		addKeyListener(key);
 	}

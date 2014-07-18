@@ -14,12 +14,14 @@ public class Player extends Mob
 	public Player(Keyboard input)
 	{
 		this.input = input;
+		sprite = Sprite.player_back;
 	}
 	
 	public Player(int x, int y, Keyboard input)
 	{
 		this.x = x;
 		this.y = y;
+		this.input = input;
 		sprite = Sprite.player_back;
 	}
 	
