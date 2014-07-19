@@ -13,7 +13,7 @@ import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.input.Keyboard;
 import com.icyfillup.rain.level.Level;
-import com.icyfillup.rain.level.SpawnLevel;
+import com.icyfillup.rain.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable
 {
@@ -46,7 +46,8 @@ public class Game extends Canvas implements Runnable
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
-		player = new Player(16 * 6, 16 * 5, key);
+		TileCoordinate playerSpawn = new TileCoordinate(20, 58);
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		
 		addKeyListener(key);
 	}
