@@ -1,5 +1,9 @@
 package com.icyfillup.rain.level;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.icyfillup.rain.entity.Entity;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.level.tile.Tile;
 
@@ -8,6 +12,9 @@ public class Level
 	protected int width, height;
 	protected int[] tilesInt;
 	protected int[] tiles;
+	protected int tile_size;
+	
+	private List<Entity> entities = new ArrayList<Entity>();
 	
 	public static Level spawn = new SpawnLevel("/levels/spawn.png");
 	
@@ -37,7 +44,10 @@ public class Level
 	
 	public void update()
 	{
-		
+		for(int i = 0; i < entities.size(); i++)
+		{
+			entities.get(i).update();
+		}
 	}
 	
 	private void time()
@@ -60,11 +70,19 @@ public class Level
 			for(int x = x0; x < x1; x++)
 			{
 				getTile(x, y).render(x, y, screen);
-				
 			}
+		}
+		
+		for(int i = 0; i < entities.size(); i++)
+		{
+			entities.get(i).render(screen);
 		}
 	}
 	
+	public void add(Entity e)
+	{
+		entities.add(e);
+	}
 
 //	Grass = 0xFF00FF00
 //	flower = 0xFFFFFF00
