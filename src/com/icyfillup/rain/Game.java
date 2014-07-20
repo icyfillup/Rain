@@ -1,7 +1,9 @@
 package com.icyfillup.rain;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -12,6 +14,7 @@ import javax.swing.JFrame;
 import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.input.Keyboard;
+import com.icyfillup.rain.input.Mouse;
 import com.icyfillup.rain.level.Level;
 import com.icyfillup.rain.level.TileCoordinate;
 
@@ -20,8 +23,8 @@ public class Game extends Canvas implements Runnable
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static int width = 300;
-	public static int height = width / 16 * 9;
+	private static int width = 300;
+	private static int height = width / 16 * 9;
 	public static int scale = 3;
 	public static String title = "Rain";
 	
@@ -51,6 +54,19 @@ public class Game extends Canvas implements Runnable
 		player.init(level);
 		
 		addKeyListener(key);
+		
+		Mouse mouse = new Mouse();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+	}
+	
+	public static int getWindowWidth()
+	{
+		return width * scale;
+	}
+	public static int getWindowHeight() 
+	{
+		return height * scale;
 	}
 	
 	public synchronized void start() 
@@ -134,8 +150,13 @@ public class Game extends Canvas implements Runnable
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-		
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Verdana", 0, 50));
+		
+//		g.fillRect(Mouse.getX() - 32, Mouse.getY() - 32, 64, 64);
+		if(Mouse.getButton() != -1) g.drawString("Button: " + Mouse.getButton(), 80, 80);
 		
 		g.dispose();
 		bs.show();

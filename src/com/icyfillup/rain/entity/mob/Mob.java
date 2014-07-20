@@ -37,10 +37,24 @@ public abstract class Mob extends Entity
 		
 	}
 	
+	protected void shoot(int x, int y, double dir)
+	{
+		dir = Math.toDegrees(dir);
+		System.out.println("Angle: " + dir);
+	}
+	
 	private boolean collision(int xa, int ya)
 	{
 		boolean solid = false;
-		if(level.getTile((x + xa) >> 4, (y + ya) >> 4).solid()) { solid = true; }
+		for(int c = 0; c < 4; c++)
+		{
+//			corner code goes here
+			int xt = ((x + xa) + c % 2 * 14 - 8) >> 4;
+			int yt = ((y + ya) + c / 2 * 12 + 3) >> 4;
+			
+			if(level.getTile(xt, yt).solid()) { solid = true; }
+		}
+		
 		return solid;
 	}
 	

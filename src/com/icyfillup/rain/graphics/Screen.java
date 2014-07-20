@@ -54,6 +54,7 @@ public class Screen
 	
 	public void renderPlayer(int xp, int yp, Sprite sprite, int flip)
 	{
+//		System.out.println(width);
 //		System.out.println("xOffset: " + xOffset + " yOffset: " + yOffset);
 		xp -= xOffset;
 		yp -= yOffset;

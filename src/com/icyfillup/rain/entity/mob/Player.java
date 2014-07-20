@@ -1,8 +1,10 @@
 package com.icyfillup.rain.entity.mob;
 
+import com.icyfillup.rain.Game;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
 import com.icyfillup.rain.input.Keyboard;
+import com.icyfillup.rain.input.Mouse;
 
 public class Player extends Mob
 {
@@ -42,8 +44,23 @@ public class Player extends Mob
 			walking = true;
 		}
 		else { walking = false; }
+		
+		updateShooting();
 	}
 	
+	private void updateShooting()
+	{
+		if(Mouse.getButton() == 1)
+		{
+			double dx = Mouse.getX() - Game.getWindowWidth() / 2;	
+			double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+//			System.out.println(dx + ", " + dy);
+			
+			double dir = Math.atan2(dy, dx);
+			shoot(x, y, dir);
+		}
+	}
+
 	public void render(Screen screen)
 	{	
 		int flip = 0;
