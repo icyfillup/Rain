@@ -2,6 +2,7 @@ package com.icyfillup.rain.graphics;
 
 import java.util.Random;
 
+import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.level.tile.Tile;
 
 public class Screen 
@@ -35,6 +36,25 @@ public class Screen
 		}
 	}
 	
+	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed)
+	{
+		if(fixed)
+		{
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for(int y = 0; y < sprite.getHeight(); y++)
+		{
+			int ya = y + yp;
+			for(int x = 0; x < sprite.getWidth(); x++)
+			{
+				int xa = x + xp;
+				if(xa < 0 || xa >= width || ya < 0 || ya >= height) { continue; }
+				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+			}
+		}
+	}
+	
 	public void renderTile(int xp, int yp, Tile tile)
 	{
 		xp -= xOffset;
@@ -52,19 +72,21 @@ public class Screen
 		}
 	}
 	
-	public void renderTile(int xp, int yp, Sprite sprite)
+	public void renderProjectile(int xp, int yp, Projectile p)
 	{
 		xp -= xOffset;
 		yp -= yOffset;
-		for(int y = 0; y < sprite.SIZE; y++)
+		for(int y = 0; y < p.getSpriteSize(); y++)
 		{
 			int ya = y + yp; 
-			for(int x = 0; x < sprite.SIZE; x++)
+			for(int x = 0; x < p.getSpriteSize(); x++)
 			{
 				int xa = x + xp;
-				if(xa < -sprite.SIZE || xa >= width || ya < 0 || ya >= height) { break; }
+				if(xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) { break; }
 				if(xa < 0) { xa = 0; }
-				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.SIZE];
+				int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
+				
+				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
 			}
 		}
 	}

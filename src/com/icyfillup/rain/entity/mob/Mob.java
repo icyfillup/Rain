@@ -1,9 +1,7 @@
 package com.icyfillup.rain.entity.mob;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.icyfillup.rain.entity.Entity;
+import com.icyfillup.rain.entity.particle.Particle;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.entity.projectile.WizardProjectile;
 import com.icyfillup.rain.graphics.Sprite;
@@ -15,10 +13,10 @@ public abstract class Mob extends Entity
 	protected boolean moving = false;
 	protected boolean walking = false;
 	
-	protected List<Projectile> projectiles = new ArrayList<Projectile>();
-	
 	public void move(int xa, int ya) 
 	{
+//		System.out.println("Size: " + level.getProjectiles().size());
+		
 		if(xa != 0 && ya != 0) 
 		{
 			move(xa, 0);
@@ -37,7 +35,11 @@ public abstract class Mob extends Entity
 			x += xa;
 			y += ya;
 		}
-		
+		else 
+		{
+			Particle p = new Particle(x, y, 500, 500);
+			level.add(p);
+		}
 	}
 	
 	public void update() 
@@ -51,8 +53,7 @@ public abstract class Mob extends Entity
 //		System.out.println("Angle: " + dir);
 		
 		Projectile p = new WizardProjectile(x, y, dir);
-		projectiles.add(p);
-		level.add(p);
+		level.addProjectile(p);
 	}
 	
 	private boolean collision(int xa, int ya)

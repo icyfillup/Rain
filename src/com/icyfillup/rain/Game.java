@@ -8,11 +8,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
 import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
+import com.icyfillup.rain.graphics.Sprite;
 import com.icyfillup.rain.input.Keyboard;
 import com.icyfillup.rain.input.Mouse;
 import com.icyfillup.rain.level.Level;
