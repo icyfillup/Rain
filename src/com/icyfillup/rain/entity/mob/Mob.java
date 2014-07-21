@@ -35,11 +35,6 @@ public abstract class Mob extends Entity
 			x += xa;
 			y += ya;
 		}
-		else 
-		{
-			Particle p = new Particle(x, y, 500, 500);
-			level.add(p);
-		}
 	}
 	
 	public void update() 
@@ -53,7 +48,7 @@ public abstract class Mob extends Entity
 //		System.out.println("Angle: " + dir);
 		
 		Projectile p = new WizardProjectile(x, y, dir);
-		level.addProjectile(p);
+		level.add(p);
 	}
 	
 	private boolean collision(int xa, int ya)
