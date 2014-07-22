@@ -36,11 +36,16 @@ public class Sprite
 	public static Sprite player_back_1 = new Sprite(32, 2, 6, SpriteSheet.tiles);
 	public static Sprite player_back_2 = new Sprite(32, 2, 7, SpriteSheet.tiles);
 	
+	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy_down);
+
+	
 //	projectile sprite here:
 	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
 	
+	
 //	Particles
 	public static Sprite particle_normal = new Sprite(3, 0xAAAAAA);
+	public static Sprite square = new Sprite(3, 0xAAAAAA);
 	
 	protected Sprite(SpriteSheet sheet, int width, int height)
 	{
@@ -102,11 +107,11 @@ public class Sprite
 	
 	private void load()
 	{
-		for(int y = 0; y < SIZE; y++)
+		for(int y = 0; y < height; y++)
 		{
-			for(int x = 0; x < SIZE; x++)
+			for(int x = 0; x < width; x++)
 			{
-				pixels[x + y * SIZE] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SIZE];
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH];
 			}
 		}
 		

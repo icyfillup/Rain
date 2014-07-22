@@ -21,7 +21,6 @@ public class SpawnLevel extends Level
 			BufferedImage image = ImageIO.read(SpawnLevel.class.getResource(path));
 			int w = this.width = image.getWidth();
 			int h = this.height = image.getHeight();
-			
 			tiles = new int[w * h];
 			image.getRGB(0,  0, w, h, tiles, 0, w);
 		}

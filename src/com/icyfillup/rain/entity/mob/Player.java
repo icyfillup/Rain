@@ -16,6 +16,7 @@ public class Player extends Mob
 	private Sprite sprite;
 	private int anim = 0;
 	private boolean walking = false;
+	
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 32, 32, 3);
