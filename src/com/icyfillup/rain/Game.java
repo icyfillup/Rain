@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
+import com.icyfillup.rain.graphics.SpriteSheet;
 import com.icyfillup.rain.input.Keyboard;
 import com.icyfillup.rain.input.Mouse;
 import com.icyfillup.rain.level.Level;
@@ -146,6 +147,7 @@ public class Game extends Canvas implements Runnable
 		int yScroll = player.y - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
 		player.render(screen);
+//		screen.renderSheet(40, 40, SpriteSheet.player_down, false);
 		
 		for(int i = 0; i < pixels.length; i++)
 		{
