@@ -1,6 +1,9 @@
 package com.icyfillup.rain.entity.mob;
 
+import java.util.List;
+
 import com.icyfillup.rain.Game;
+import com.icyfillup.rain.entity.Entity;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.entity.projectile.WizardProjectile;
 import com.icyfillup.rain.graphics.AnimatedSprite;
@@ -44,33 +47,35 @@ public class Player extends Mob
 	
 	public void update()
 	{
+		
 		if(walking) { animSprite.update(); }
 		else { animSprite.setFrame(0); }
 		if(fireRate > 0) fireRate--;
 		
-		int xa = 0, ya = 0;
+		double xa = 0, ya = 0;
+		double speed = 1.5;
 		
 		if(anim < 7500) { anim++; }
 		else { anim = 0; }
 		
 		if(input.up)
 		{ 
-			ya--;
+			ya -= speed;
 			animSprite = up;
 		}
 		else if(input.down) 
 		{ 
-			ya++; 
+			ya += speed; 
 			animSprite = down;
 		}
 		if(input.left) 
 		{ 
-			xa--; 
+			xa -= speed; 
 			animSprite = left;
 		}
 		else if(input.right) 
 		{ 
-			xa++; 
+			xa += speed;
 			animSprite = right;
 		}
 		
@@ -115,6 +120,6 @@ public class Player extends Mob
 		int flip = 0;
 		
 		sprite = animSprite.getSprite();
-		screen.renderMob(x - 16, y - 16, sprite, flip);
+		screen.renderMob((int) (x - 16), (int) (y - 16), sprite, flip);
 	}
 }

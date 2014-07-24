@@ -2,6 +2,8 @@ package com.icyfillup.rain.graphics;
 
 import java.util.Random;
 
+import com.icyfillup.rain.entity.mob.Chaser;
+import com.icyfillup.rain.entity.mob.Mob;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.level.tile.Tile;
 
@@ -105,6 +107,31 @@ public class Screen
 				if(xa < 0) { xa = 0; }
 				int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
 				
+				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
+			}
+		}
+	}
+	
+	public void renderMob(int xp, int yp, Mob mob)
+	{
+//		System.out.println(width);
+//		System.out.println("xOffset: " + xOffset + " yOffset: " + yOffset);
+		xp -= xOffset;
+		yp -= yOffset;
+		for(int y = 0; y < mob.getSprite().SIZE; y++)
+		{	
+			int ys = y;
+			int ya = y + yp;
+			
+			for(int x = 0; x < mob.getSprite().SIZE; x++)
+			{
+				int xs = x;
+				int xa = x + xp;
+				
+				if(xa < -mob.getSprite().SIZE || xa >= width || ya < 0 || ya >= height) { break; }
+				if(xa < 0) { xa = 0; }
+				int col = mob.getSprite().pixels[xs + ys * mob.getSprite().SIZE];
+				if((mob instanceof Chaser) && (col == 0xFF472BBF)) { col = 0xffBA0015; }
 				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
 			}
 		}

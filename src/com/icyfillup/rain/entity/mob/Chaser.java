@@ -1,13 +1,14 @@
 package com.icyfillup.rain.entity.mob;
 
+import java.util.List;
+
 import com.icyfillup.rain.graphics.AnimatedSprite;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
 import com.icyfillup.rain.graphics.SpriteSheet;
 
-public class Dummy extends Mob
+public class Chaser extends Mob
 {
-	
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
@@ -15,36 +16,43 @@ public class Dummy extends Mob
 	
 	private AnimatedSprite animSprite = down;
 	
-	private int time = 0;
-	private int xa = 0;
-	private int ya = 0;
+	private double xa = 0;
+	private double ya = 0;
+	private double speed = 0.8;
 	
-	public Dummy(int x, int y)
+	public Chaser(int x, int y)
 	{
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.dummy;
 	}
 	
-	public void update()
+	private void move()
 	{
-		time++;
-		if(time % (random.nextInt(50) + 30) == 0)
+		xa = 0;
+		ya = 0;
+		
+		List<Player> players = level.getPlayers(this, 50);
+		if(players.size() > 0)
 		{
-			xa = random.nextInt(3) - 1;
-			ya = random.nextInt(3) - 1;
-			
-
-			if(random.nextInt(4) == 0)
-			{
-				xa = 0;
-				ya = 0;
-			}
-			
+			Player player = players.get(0);
+			if(x < player.getX()) { xa =+ speed; }
+			if(x > player.getX()) { xa =- speed; }
+			if(y < player.getY()) { ya =+ speed; }
+			if(y > player.getY()) { ya =- speed; }			
 		}
 		
-		
-		
+		if(xa != 0 || ya != 0)
+		{
+			move(xa, ya);
+			walking = true;
+		}
+		else { walking = false; }
+	}
+	
+	public void update() 
+	{
+		move();
 		if(walking) { animSprite.update(); }
 		else { animSprite.setFrame(0); }
 		
@@ -69,26 +77,13 @@ public class Dummy extends Mob
 			animSprite = right;
 		}
 		
-		if(xa != 0 || ya != 0)
-		{
-			move(xa, ya);
-			walking = true;
-		}
-		else { walking = false; }
 		
 	}
-	
-	public void render(Screen screen)
+
+	public void render(Screen screen) 
 	{
 		sprite = animSprite.getSprite();
-		
-		screen.renderMob((int) x, (int) y, sprite, 0);
+		screen.renderMob((int) (x - 16), (int) (y - 16), this);
 	}
-	
-	
-	
-	
-	
-	
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.icyfillup.rain.entity.Entity;
+import com.icyfillup.rain.entity.mob.Player;
 import com.icyfillup.rain.entity.particle.Particle;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.graphics.Screen;
@@ -19,6 +20,8 @@ public class Level
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Particle> particles = new ArrayList<Particle>();
+	
+	public List<Player> players = new ArrayList<Player>();
 	
 	public static Level spawn = new SpawnLevel("/levels/spawn.png");
 	
@@ -49,20 +52,13 @@ public class Level
 	
 	public void update()
 	{
-		for(int i = 0; i < entities.size(); i++)
-		{
-			entities.get(i).update();
-		}
+		for(int i = 0; i < entities.size(); i++) { entities.get(i).update(); }
 		
-		for(int i = 0; i < projectiles.size(); i++)
-		{
-			projectiles.get(i).update();
-		}
+		for(int i = 0; i < projectiles.size(); i++) { projectiles.get(i).update(); }
 		
-		for(int i = 0; i < particles.size(); i++)
-		{
-			particles.get(i).update();
-		}
+		for(int i = 0; i < particles.size(); i++) { particles.get(i).update(); }
+		
+		for(int i = 0; i < players.size(); i++) { players.get(i).update(); }
 		
 		remove();
 	}
@@ -82,6 +78,11 @@ public class Level
 		for(int i = 0; i < particles.size(); i++)
 		{
 			if(particles.get(i).isRemoved()) { particles.remove(i); }
+		}
+		
+		for(int i = 0; i < players.size(); i++) 
+		{
+			if(players.get(i).isRemoved()) { players.remove(i); }
 		}
 	}
 	
@@ -121,46 +122,79 @@ public class Level
 		
 		for(int y = y0; y < y1; y++) 
 		{
-			for(int x = x0; x < x1; x++)
-			{
-				getTile(x, y).render(x, y, screen);
-			}
+			for(int x = x0; x < x1; x++) { getTile(x, y).render(x, y, screen); }
 		}
 		
-		for(int i = 0; i < entities.size(); i++)
-		{
-			entities.get(i).render(screen);
-		}
+		for(int i = 0; i < entities.size(); i++) { entities.get(i).render(screen); }
 		
-		for(int i = 0; i < projectiles.size(); i++)
-		{
-			projectiles.get(i).render(screen);
-		}
+		for(int i = 0; i < projectiles.size(); i++) { projectiles.get(i).render(screen); }
 		
-		for(int i = 0; i < particles.size(); i++)
-		{
-			particles.get(i).render(screen);
-		}
+		for(int i = 0; i < particles.size(); i++) { particles.get(i).render(screen); }
+		
+		for(int i = 0; i < players.size(); i++)  { players.get(i).render(screen); }
 	}
 	
 	public void add(Entity e)
 	{
 		e.init(this);
-		if(e instanceof Particle)
-		{
-			particles.add((Particle)e);
-		}
-		else if(e instanceof Projectile)
-		{
-			projectiles.add((Projectile)e);
-		}
-		else
-		{
-			entities.add(e);
-		}
+		
+		if(e instanceof Particle) { particles.add((Particle)e); }
+		else if(e instanceof Projectile) { projectiles.add((Projectile)e); }
+		else if(e instanceof Player) { players.add((Player)e); }
+		else { entities.add(e); }
 		
 	}
+	
+	public List<Player> getPlayers() { return players; }
+	
+	public Player getPlayerAt(int index) { return players.get(index); }
+	
+	public Player getClientPlayer() { return players.get(0); }
 
+	public List<Entity> getEntities(Entity e, int radius)
+	{
+		List<Entity> result = new ArrayList<Entity>();
+		double ex = e.getX();
+		double ey = e.getY();
+		
+		for(int i = 0; i < entities.size(); i++)
+		{
+			Entity entity = entities.get(i);
+			double x = entity.getX();
+			double y = entity.getY();
+			
+			double dx = Math.abs(x - ex);
+			double dy = Math.abs(y - ey);
+			
+			double distance = Math.sqrt((dx * dx) + (dy * dy));
+			if(distance <= radius) { result.add(entity); }
+		}
+		
+		return result;
+	}
+	
+	public List<Player> getPlayers(Entity e, int radius)
+	{
+		List<Player> result = new ArrayList<Player>();
+		double ex = e.getX();
+		double ey = e.getY();
+		
+		for(int i = 0; i < players.size(); i++)
+		{			
+			Player player = players.get(i);
+			double x = player.getX();
+			double y = player.getY();
+			
+			double dx = Math.abs(x - ex);
+			double dy = Math.abs(y - ey);
+			
+			double distance = Math.sqrt((dx * dx) + (dy * dy));
+			if(distance <= radius) { result.add(player); }
+		}
+		
+		return result;
+	}
+	
 //	Grass = 0xFF00FF00
 //	flower = 0xFFFFFF00
 //	rock = 0xFF7F7F00

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.icyfillup.rain.entity.mob.Chaser;
 import com.icyfillup.rain.entity.mob.Dummy;
 
 public class SpawnLevel extends Level
@@ -29,9 +30,10 @@ public class SpawnLevel extends Level
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file.");
 		}
-		for(int i = 0; i < 5000; i++)
+		for(int i = 0; i < 2; i++)
 		{
-			add(new Dummy(20, 60));			
+			add(new Chaser(20, 50));
+			add(new Dummy(20, 50));
 		}
 	}
 
