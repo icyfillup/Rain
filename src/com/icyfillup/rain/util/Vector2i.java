@@ -61,4 +61,12 @@ public class Vector2i
 		this.x = x;
 		this.y = y;		
 	}
+	
+	public boolean equals(Object object)
+	{
+		if(!(object instanceof Vector2i)) { return false; }
+		Vector2i vec = (Vector2i) object;
+		if((vec.getX() == this.getX()) == (vec.getY() == this.getY())) { return true; }
+		return false;
+	}
 }
