@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.icyfillup.rain.entity.mob.Dummy;
 import com.icyfillup.rain.entity.mob.Shooter;
 
 public class SpawnLevel extends Level
@@ -35,7 +36,9 @@ public class SpawnLevel extends Level
 		}
 //		add(new Chaser(20, 50));
 //		add(new Star(18, 35));
-		add(new Shooter(18, 35));
+		add(new Shooter(18, 50));
+		add(new Dummy(30, 50));
+		add(new Shooter(18, 40));
 
 	}
 
