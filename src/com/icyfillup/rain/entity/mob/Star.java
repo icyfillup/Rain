@@ -35,23 +35,13 @@ public class Star extends Mob
 		xa = 0;
 		ya = 0;
 		
-//		List<Player> players = level.getPlayers(this, 50);
-//		if(players.size() > 0)
-//		{
-//			Player player = players.get(0);
-//			if(x < player.getX()) { xa =+ 1; }
-//			if(x > player.getX()) { xa =- 1; }
-//			if(y < player.getY()) { ya =+ 1; }
-//			if(y > player.getY()) { ya =- 1; }			
-//		}
-		
 		int px = (int) level.getPlayerAt(0).getX();
 		int py = (int) level.getPlayerAt(0).getY();
 		
 		Vector2i start = new Vector2i((int) getX() >> 4, (int) getY() >> 4);
 		Vector2i destination = new Vector2i(px >> 4, py >> 4);
 		
-		if(time % 20 == 0 ) { path = level.findPath(start, destination);}
+		if(time % 5 == 0 ) { path = level.findPath(start, destination);}
 		
 		if(path != null)
 		{

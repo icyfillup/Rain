@@ -197,7 +197,7 @@ public class Level
 				if(at == null) { continue; }
 				if(at.solid()) { continue; }
 				Vector2i a = new Vector2i(x + xi, y + yi);
-				double gCost = currentNode.gCost  + getDistance(currentNode.tile, a);
+				double gCost = currentNode.gCost  + (getDistance(currentNode.tile, a) == 1 ? 1 : 0.95);
 				double hCost = getDistance(a, goal);
 				Node node = new Node(a, currentNode, gCost, hCost);
 				if(vecInList(closedList, a) && gCost >= node.gCost) { continue; }

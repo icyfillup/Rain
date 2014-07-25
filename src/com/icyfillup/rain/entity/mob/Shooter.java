@@ -1,13 +1,13 @@
 package com.icyfillup.rain.entity.mob;
 
+import com.icyfillup.rain.entity.mob.Mob.Direction;
 import com.icyfillup.rain.graphics.AnimatedSprite;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
 import com.icyfillup.rain.graphics.SpriteSheet;
 
-public class Dummy extends Mob
+public class Shooter extends Mob
 {
-	
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
@@ -16,17 +16,16 @@ public class Dummy extends Mob
 	private AnimatedSprite animSprite = down;
 	
 	private int time = 0;
-	private int xa = 0;
-	private int ya = 0;
-	
-	public Dummy(int x, int y)
+	private int xa = 0, ya = 0;
+
+	public Shooter(int x, int y)
 	{
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.dummy;
 	}
 	
-	public void update()
+	public void update() 
 	{
 		time++;
 		if(time % (random.nextInt(50) + 30) == 0)
@@ -74,19 +73,18 @@ public class Dummy extends Mob
 		}
 		else { walking = false; }
 		
+		Player p = level.getClientPlayer();
+		double dx = p.getX() - x;
+		double dy = p.getY() - y;
+		double dir = Math.atan2(dy, dx);
+		
+		shoot(x, y, dir);
 	}
-	
+
 	public void render(Screen screen)
 	{
 		sprite = animSprite.getSprite();
-		
-		screen.renderMob((int) x - 16, (int) y - 16, sprite, 0);
+		screen.renderMob((int) x - 16, (int) y - 16, this);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }
