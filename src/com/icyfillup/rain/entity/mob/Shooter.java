@@ -3,6 +3,7 @@ package com.icyfillup.rain.entity.mob;
 import java.util.List;
 
 import com.icyfillup.rain.entity.Entity;
+import com.icyfillup.rain.entity.projectile.WizardProjectile;
 import com.icyfillup.rain.graphics.AnimatedSprite;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
@@ -21,16 +22,22 @@ public class Shooter extends Mob
 	private int time = 0;
 	private int xa = 0, ya = 0;
 
+	private Entity rand = null;
+	
+	private int fireRate = 0;
+	
 	public Shooter(int x, int y)
 	{
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.dummy;
+		fireRate = WizardProjectile.FIRE_RATE;
 	}
 	
 	public void update() 
 	{
 		time++;
+		if(fireRate > 0) fireRate--;
 		if(time % (random.nextInt(50) + 30) == 0)
 		{
 			xa = random.nextInt(3) - 1;
@@ -76,6 +83,35 @@ public class Shooter extends Mob
 		}
 		else { walking = false; }
 		
+		shootRandom();
+		
+	}
+	
+	private void shootRandom()
+	{
+		if(time % 60 == 0)
+		{
+			List<Entity> entities = level.getEntities(this, 500);
+			entities.add(level.getClientPlayer());
+			int index = random.nextInt(entities.size());
+			rand = entities.get(index);			
+			
+//			System.out.println(entities.size());
+		}
+		
+		
+		if(rand != null && fireRate <= 0)
+		{
+			double dx = rand.getX() - x;
+			double dy = rand.getY() - y;
+			double dir = Math.atan2(dy, dx);
+			shoot(x, y, dir);
+			fireRate = WizardProjectile.FIRE_RATE;
+		}
+	}
+	
+	private void shootClosest() 
+	{
 		List<Entity> entities = level.getEntities(this, 500);
 		entities.add(level.getClientPlayer());
 		
@@ -99,7 +135,6 @@ public class Shooter extends Mob
 			double dir = Math.atan2(dy, dx);
 			shoot(x, y, dir);
 		}
-		
 	}
 
 	public void render(Screen screen)
