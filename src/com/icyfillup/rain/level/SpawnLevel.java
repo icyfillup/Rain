@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 
 import com.icyfillup.rain.entity.mob.Chaser;
 import com.icyfillup.rain.entity.mob.Dummy;
+import com.icyfillup.rain.entity.mob.Star;
 
 public class SpawnLevel extends Level
 {
@@ -32,9 +33,11 @@ public class SpawnLevel extends Level
 		}
 		for(int i = 0; i < 2; i++)
 		{
-			add(new Chaser(20, 50));
 			add(new Dummy(20, 50));
 		}
+		add(new Chaser(20, 50));
+		add(new Star(18, 35));
+
 	}
 
 	protected void generateLevel()

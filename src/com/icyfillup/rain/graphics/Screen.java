@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.icyfillup.rain.entity.mob.Chaser;
 import com.icyfillup.rain.entity.mob.Mob;
+import com.icyfillup.rain.entity.mob.Star;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.level.tile.Tile;
 
@@ -132,6 +133,7 @@ public class Screen
 				if(xa < 0) { xa = 0; }
 				int col = mob.getSprite().pixels[xs + ys * mob.getSprite().SIZE];
 				if((mob instanceof Chaser) && (col == 0xFF472BBF)) { col = 0xffBA0015; }
+				if((mob instanceof Star) && (col == 0xFF472BBF)) { col = 0xffe8e83a; }
 				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
 			}
 		}

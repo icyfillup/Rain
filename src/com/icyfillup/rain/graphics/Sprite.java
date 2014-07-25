@@ -36,7 +36,7 @@ public class Sprite
 	public static Sprite player_back_1 = new Sprite(32, 2, 6, SpriteSheet.tiles);
 	public static Sprite player_back_2 = new Sprite(32, 2, 7, SpriteSheet.tiles);
 	
-	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy_down);
+	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
 
 	
 //	projectile sprite here:

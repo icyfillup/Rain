@@ -66,7 +66,7 @@ public class Vector2i
 	{
 		if(!(object instanceof Vector2i)) { return false; }
 		Vector2i vec = (Vector2i) object;
-		if((vec.getX() == this.getX()) == (vec.getY() == this.getY())) { return true; }
+		if((vec.getX() == this.getX()) && (vec.getY() == this.getY())) { return true; }
 		return false;
 	}
 }

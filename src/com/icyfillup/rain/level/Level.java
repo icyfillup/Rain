@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.icyfillup.rain.entity.Entity;
 import com.icyfillup.rain.entity.mob.Player;
+import com.icyfillup.rain.entity.mob.Star;
 import com.icyfillup.rain.entity.particle.Particle;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.graphics.Screen;
@@ -31,8 +32,8 @@ public class Level
 
 		public int compare(Node n0, Node n1)
 		{
-			if(n1.fCost < n0.fCost) { return 1; }
-			if(n1.fCost < n0.fCost) { return -1; }
+			if(n1.fCost < n0.fCost) { return +1; }
+			if(n1.fCost > n0.fCost) { return -1; }
 			return 0;
 		}
 		
@@ -101,15 +102,9 @@ public class Level
 		}
 	}
 	
-	public List<Projectile> getProjectiles()
-	{
-		return projectiles;
-	}
+	public List<Projectile> getProjectiles() { return projectiles; }
 	
-	private void time()
-	{
-		
-	}
+	private void time() {  }
 	
 	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset)
 	{
@@ -155,7 +150,7 @@ public class Level
 		
 		if(e instanceof Particle) { particles.add((Particle)e); }
 		else if(e instanceof Projectile) { projectiles.add((Projectile)e); }
-		else if(e instanceof Player) { players.add((Player)e); }
+		else if(e instanceof Player) { players.add((Player) e); }
 		else { entities.add(e); }
 		
 	}
@@ -179,11 +174,11 @@ public class Level
 			if(currentNode.tile.equals(goal))
 			{
 				List<Node> path = new ArrayList<Node>();
-				while(currentNode != null)
+				while(currentNode.parent != null)
 				{
 					path.add(currentNode);
 					currentNode = currentNode.parent;
-				}
+				} 
 				openList.clear();
 				closedList.clear();
 				return path;
@@ -202,7 +197,7 @@ public class Level
 				if(at == null) { continue; }
 				if(at.solid()) { continue; }
 				Vector2i a = new Vector2i(x + xi, y + yi);
-				double gCost = currentNode.gCost  = getDistance(currentNode.tile, a);
+				double gCost = currentNode.gCost  + getDistance(currentNode.tile, a);
 				double hCost = getDistance(a, goal);
 				Node node = new Node(a, currentNode, gCost, hCost);
 				if(vecInList(closedList, a) && gCost >= node.gCost) { continue; }
@@ -232,17 +227,17 @@ public class Level
 	public List<Entity> getEntities(Entity e, int radius)
 	{
 		List<Entity> result = new ArrayList<Entity>();
-		double ex = e.getX();
-		double ey = e.getY();
+		int ex = (int) e.getX();
+		int ey = (int) e.getY();
 		
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity entity = entities.get(i);
-			double x = entity.getX();
-			double y = entity.getY();
+			int x = (int) entity.getX();
+			int y = (int) entity.getY();
 			
-			double dx = Math.abs(x - ex);
-			double dy = Math.abs(y - ey);
+			int dx = Math.abs(x - ex);
+			int dy = Math.abs(y - ey);
 			
 			double distance = Math.sqrt((dx * dx) + (dy * dy));
 			if(distance <= radius) { result.add(entity); }
@@ -254,17 +249,17 @@ public class Level
 	public List<Player> getPlayers(Entity e, int radius)
 	{
 		List<Player> result = new ArrayList<Player>();
-		double ex = e.getX();
-		double ey = e.getY();
+		int ex = (int) e.getX();
+		int ey = (int) e.getY();
 		
 		for(int i = 0; i < players.size(); i++)
 		{			
 			Player player = players.get(i);
-			double x = player.getX();
-			double y = player.getY();
+			int x = (int) player.getX();
+			int y = (int) player.getY();
 			
-			double dx = Math.abs(x - ex);
-			double dy = Math.abs(y - ey);
+			int dx = Math.abs(x - ex);
+			int dy = Math.abs(y - ey);
 			
 			double distance = Math.sqrt((dx * dx) + (dy * dy));
 			if(distance <= radius) { result.add(player); }
