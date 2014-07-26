@@ -1,9 +1,6 @@
 package com.icyfillup.rain.entity.mob;
 
-import java.util.List;
-
 import com.icyfillup.rain.Game;
-import com.icyfillup.rain.entity.Entity;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.entity.projectile.WizardProjectile;
 import com.icyfillup.rain.graphics.AnimatedSprite;

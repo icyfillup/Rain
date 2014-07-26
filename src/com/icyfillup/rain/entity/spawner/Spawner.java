@@ -1,7 +1,6 @@
 package com.icyfillup.rain.entity.spawner;
 
 import com.icyfillup.rain.entity.Entity;
-import com.icyfillup.rain.entity.particle.Particle;
 import com.icyfillup.rain.level.Level;
 
 public class Spawner extends Entity

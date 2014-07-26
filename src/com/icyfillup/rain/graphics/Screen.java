@@ -16,6 +16,7 @@ public class Screen
 	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	public int xOffset, yOffset;
 	public int[] tiles = new int [MAP_SIZE * MAP_SIZE];
+	private final int ALPHA_COL = 0xFFFF00FF;
 	
 	private Random random = new Random();
 	
@@ -39,6 +40,26 @@ public class Screen
 		}
 	}
 	
+	public void renderTextCharacter(int xp, int yp, Sprite sprite, int color, boolean fixed)
+	{
+		if(fixed)
+		{
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for(int y = 0; y < sprite.getHeight(); y++)
+		{
+			int ya = y + yp;
+			for(int x = 0; x < sprite.getWidth(); x++)
+			{
+				int xa = x + xp;
+				if(xa < 0 || xa >= width || ya < 0 || ya >= height) { continue; }
+	
+				int col = sprite.pixels[x + y * sprite.getWidth()];
+				if(col != ALPHA_COL) pixels[xa + ya * width] = color;}
+		}
+	}
+	
 	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed)
 	{
 		if(fixed)
@@ -53,8 +74,9 @@ public class Screen
 			{
 				int xa = x + xp;
 				if(xa < 0 || xa >= width || ya < 0 || ya >= height) { continue; }
-				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
-			}
+	
+				int col = sprite.pixels[x + y * sprite.getWidth()];
+				if(col != ALPHA_COL) pixels[xa + ya * width] = col;}
 		}
 	}
 	
@@ -65,14 +87,14 @@ public class Screen
 			xp -= xOffset;
 			yp -= yOffset;
 		}
-		for(int y = 0; y < sheet.HEIGHT; y++)
+		for(int y = 0; y < sheet.SPRITE_HEIGHT; y++)
 		{
 			int ya = y + yp;
-			for(int x = 0; x < sheet.WIDTH; x++)
+			for(int x = 0; x < sheet.SPRITE_WIDTH; x++)
 			{
 				int xa = x + xp;
 				if(xa < 0 || xa >= width || ya < 0 || ya >= height) { continue; }
-				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.WIDTH];
+				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.SPRITE_WIDTH];
 			}
 		}
 	}
@@ -108,7 +130,7 @@ public class Screen
 				if(xa < 0) { xa = 0; }
 				int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
 				
-				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
+				if(col != ALPHA_COL) { pixels[xa + ya * width] = col; }
 			}
 		}
 	}
@@ -134,7 +156,7 @@ public class Screen
 				int col = mob.getSprite().pixels[xs + ys * mob.getSprite().SIZE];
 				if((mob instanceof Chaser) && (col == 0xFF472BBF)) { col = 0xffBA0015; }
 				if((mob instanceof Star) && (col == 0xFF472BBF)) { col = 0xffe8e83a; }
-				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
+				if(col != ALPHA_COL) { pixels[xa + ya * width] = col; }
 			}
 		}
 	}
@@ -160,8 +182,32 @@ public class Screen
 				if(xa < -sprite.SIZE || xa >= width || ya < 0 || ya >= height) { break; }
 				if(xa < 0) { xa = 0; }
 				int col = sprite.pixels[xs + ys * sprite.SIZE];
-				if(col != 0xFFFF00FF) { pixels[xa + ya * width] = col; }
+				if(col != ALPHA_COL) { pixels[xa + ya * width] = col; }
 			}
+		}
+	}
+	
+	public void drawRect(int xp, int yp, int width, int height, int color, boolean fixed) 
+	{
+		if(fixed)
+		{
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for(int x = xp; x < xp + width; x++)
+		{
+			if(x < 0 || x >= this.width || yp >= this.height) { continue; }
+			if(yp > 0) { pixels[x + yp * this.width] = color; }
+			if(yp + height >= this.height) { continue; }
+			if(yp + height > 0) { pixels[x + (yp + height) * this.width] = color; }
+		}
+
+		for(int y = yp; y <= yp + height; y++)
+		{
+			if(xp >= this.width || y < 0 || y >= this.height) { continue; }
+			if(xp > 0) { pixels[xp + y * this.width] = color; }
+			if(xp + width >= this.width) { continue; }
+			if(xp + width > 0) { pixels[(xp + width) + y * this.width] = color; }
 		}
 	}
 	
@@ -170,6 +216,7 @@ public class Screen
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
+
 	
 	
 }

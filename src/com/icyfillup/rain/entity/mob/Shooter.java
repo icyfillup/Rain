@@ -8,6 +8,7 @@ import com.icyfillup.rain.graphics.AnimatedSprite;
 import com.icyfillup.rain.graphics.Screen;
 import com.icyfillup.rain.graphics.Sprite;
 import com.icyfillup.rain.graphics.SpriteSheet;
+import com.icyfillup.rain.util.Debug;
 import com.icyfillup.rain.util.Vector2i;
 
 public class Shooter extends Mob
@@ -140,6 +141,7 @@ public class Shooter extends Mob
 	public void render(Screen screen)
 	{
 		sprite = animSprite.getSprite();
+		Debug.drawRect(screen, 50, 50, 32, 32, false);
 		screen.renderMob((int) x - 16, (int) y - 16, this);
 	}
 

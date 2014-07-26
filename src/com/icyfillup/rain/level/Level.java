@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.icyfillup.rain.entity.Entity;
 import com.icyfillup.rain.entity.mob.Player;
-import com.icyfillup.rain.entity.mob.Star;
 import com.icyfillup.rain.entity.particle.Particle;
 import com.icyfillup.rain.entity.projectile.Projectile;
 import com.icyfillup.rain.graphics.Screen;
